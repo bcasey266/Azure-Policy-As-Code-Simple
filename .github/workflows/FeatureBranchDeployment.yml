@@ -26,7 +26,7 @@ jobs:
       cancel-in-progress: true
 
     # Sets the GitHub Environment that it will run against
-    environment: Test
+    environment: PolicyTesting
 
     steps:
       - uses: actions/checkout@v3

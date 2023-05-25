@@ -19,7 +19,7 @@ jobs:
       contents: write
       pull-requests: write
       
-    environment: Test
+    environment: Bakery
     
     steps:
       - name: Checkout

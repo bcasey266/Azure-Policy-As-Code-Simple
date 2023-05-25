@@ -22,7 +22,7 @@ jobs:
     if: github.event.review.state == 'approved' && (contains(github.event.pull_request.labels.*.name, 'PolicyDeployment') || contains(github.event.pull_request.labels.*.name, 'RoleDeployment'))
     runs-on: ubuntu-latest
 
-    environment: Production
+    environment: Bakery
 
     steps:
       - name: Checkout
