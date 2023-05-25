@@ -1,0 +1,101 @@
+name: Feature Branch Deployment
+
+env:
+  pacEnvironment: PolicyTesting # Change this to a PAC environment name
+  definitionsRootFolder: Definitions
+  planFolder: Output
+
+on:
+  # Triggers the workflow on push to all branches except main
+  push:
+    paths:
+      - Definitions/**
+    branches-ignore:
+      - "main"
+
+jobs:
+  Policy:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+    permissions:
+      id-token: write
+      contents: read
+      actions: write
+    concurrency:
+      group: FeatureBranchDeploy
+      cancel-in-progress: true
+
+    # Sets the GitHub Environment that it will run against
+    environment: Test
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - shell: pwsh
+        name: Install Required Modules
+        run: |
+          Install-Module Az.ResourceGraph -Force -AllowClobber
+          Install-Module Az.Resources -Force -AllowClobber
+          Install-Module EnterprisePolicyAsCode -Force
+
+      # Logs into Azure using the GitHub Secret "AZPOLICY_PLAN"
+      - uses: Azure/login@v1
+        with:
+          client-id: ${{ secrets.PLAN_CLIENT_ID }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          allow-no-subscriptions: true
+          enable-AzPSSession: true
+
+      - name: Build Deployment Plan
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+            Build-DeploymentPlans -definitionsRootFolder $env:definitionsRootFolder -outputFolder $env:planFolder -pacEnvironment $env:pacEnvironment
+            $epacInfoStream | Set-Content body.txt
+          azPSVersion: "latest"
+
+      # Log out of Plan SPN
+      - name: Log Out
+        run: |
+          az logout
+          az cache purge
+          az account clear
+      
+      - shell: pwsh
+        name: Detect Plan
+        run: |
+          if (Get-ChildItem -Path $env:definitionsRootFolder -Filter "NO_DEPLOY" -Recurse) {
+            Write-Output "NO_DEPLOY file found, exiting"
+            gh run cancel ${{ github.run_id }}
+            gh run watch ${{ github.run_id }}
+          }
+          if (Test-Path Output) {
+            echo "Deploy=true" >> $env:GITHUB_ENV
+          }
+          else {
+            echo "No changes detected."
+          }
+
+      # Logs into Azure using the GitHub Secret "AZPOLICY_DEPLOY"
+      - uses: Azure/login@v1
+        if: ${{ env.Deploy == 'true' }}
+        with:
+          client-id: ${{ secrets.DEPLOY_CLIENT_ID }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          allow-no-subscriptions: true
+          enable-AzPSSession: true
+
+      - name: Deploy Policy Plan
+        if: ${{ env.Deploy == 'true' }}
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+            Deploy-PolicyPlan -definitionsRootFolder $env:definitionsRootFolder -inputFolder $env:planFolder -pacEnvironment $env:pacEnvironment
+          azPSVersion: "latest"
+      - name: Deploy Role Plan
+        if: ${{ env.Deploy == 'true' }}
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+            Deploy-RolesPlan -definitionsRootFolder $env:definitionsRootFolder -inputFolder $env:planFolder -pacEnvironment $env:pacEnvironment
+          azPSVersion: "latest"

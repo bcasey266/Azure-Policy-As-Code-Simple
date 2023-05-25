@@ -1,0 +1,94 @@
+{
+   "name": "6ea6c248-8512-44a9-b49b-3179564dd9a3",
+   "properties": {
+      "displayName": "Resource Group Tag",
+      "policyType": "Custom",
+      "mode": "All",
+      "description": "Checks and can enforce the existence of a tag. Only applies to resource groups.",
+      "metadata": {
+         "version": "1.0.0",
+         "category": "Tagging"
+      },
+      "parameters": {
+         "tagName": {
+            "type": "String",
+            "metadata": {
+               "displayName": "Tag Name",
+               "description": "Name of the tag, such as 'environment'"
+            }
+         },
+         "effect": {
+            "type": "String",
+            "metadata": {
+               "displayName": "Effect",
+               "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+               "Audit",
+               "Deny",
+               "Disabled"
+            ],
+            "defaultValue": "Deny"
+         }
+      },
+      "policyRule": {
+         "if": {
+            "allOf": [
+               {
+                  "field": "type",
+                  "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+               },
+               {
+                  "field": "[concat('tags[', parameters('tagName'), ']')]",
+                  "exists": "false"
+               },
+               {
+                  "not": {
+                     "anyOf": [
+                        {
+                           "field": "name",
+                           "like": "cloud-shell-*"
+                        },
+                        {
+                           "field": "name",
+                           "like": "DefaultResourceGroup*"
+                        },
+                        {
+                           "field": "name",
+                           "like": "Zerto*"
+                        },
+                        {
+                           "field": "name",
+                           "like": "AzureBackupRG*"
+                        },
+                        {
+                           "field": "name",
+                           "like": "MC_*"
+                        },
+                        {
+                           "field": "name",
+                           "like": "aks_*"
+                        },
+                        {
+                           "field": "name",
+                           "like": "databricks*"
+                        },
+                        {
+                           "field": "name",
+                           "like": "*-migrated"
+                        },
+                        {
+                           "field": "name",
+                           "like": "NetworkWatcher*"
+                        }
+                     ]
+                  }
+               }
+            ]
+         },
+         "then": {
+            "effect": "[parameters('effect')]"
+         }
+      }
+   }
+}

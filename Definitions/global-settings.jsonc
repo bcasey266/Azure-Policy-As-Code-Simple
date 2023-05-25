@@ -1,0 +1,52 @@
+{
+    "pacOwnerId": "dfef029c-c847-4c7c-bcec-fac72ea3d61a",
+    "pacEnvironments": [
+        {
+            "pacSelector": "PolicyTesting",
+            "cloud": "AzureCloud",
+            "tenantId": "6ed84810-9473-45d6-bf1b-4e184c8f603b",
+            "deploymentRootScope": "/subscriptions/10a32d64-ee41-4474-91ef-d3b9de1f5386/resourceGroups/PolicyTesting",
+            "inheritedDefinitionsScopes": [], // [optional] inherited definition scopes used but not managed by this repository, scopes must be visible from deploymentScope
+            "desiredState": { // [optional]
+                "strategy": "full", // default full
+                // full      = delete any unknown assignments and Policy/Set definitions in managed scope not containing metadata.pacOwnerId
+                // ownedOnly = delete only our own assignments as indicated by metadata.pacOwnerId field
+                "includeResourceGroups": true,
+                "excludedScopes": [
+                    // Management Groups
+                    // Subscriptions
+                    // Resource Groups
+                ],
+                "excludedPolicyDefinitions": [
+                    // wild cards allowed
+                ],
+                "excludedPolicySetDefinitions": [
+                    // wild cards allowed
+                ],
+                "excludedPolicyAssignments": [
+                    // wild cards allowed
+                ]
+            }
+        },
+        {
+            "pacSelector": "Bakery",
+            "cloud": "AzureCloud",
+            "tenantId": "6ed84810-9473-45d6-bf1b-4e184c8f603b",
+            "deploymentRootScope": "/providers/Microsoft.Management/managementGroups/bakery",
+            "desiredState": { // [optional]
+                "strategy": "ownedOnly", // default full
+                "excludedScopes": [
+                    "/subscriptions/10a32d64-ee41-4474-91ef-d3b9de1f5386/resourceGroups/PolicyTesting"
+                ]
+            }
+        }
+    ],
+    "managedIdentityLocations": {
+        "*": "eastus2"
+    },
+    "globalNotScopes": {
+        "*": [
+            "/resourceGroupPatterns/excluded-rg*"
+        ]
+    }
+}
