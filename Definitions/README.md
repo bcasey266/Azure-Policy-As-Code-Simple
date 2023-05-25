@@ -94,3 +94,5 @@ Each entry in the array defines one of the environments:
 [^exempt]: https://learn.microsoft.com/en-us/azure/governance/policy/concepts/
 [^init]: https://learn.microsoft.com/en-us/azure/governance/policy/overview#initiative-definition
 [^def]: https://learn.microsoft.com/en-us/azure/governance/policy/overview#policy-definition
+
+.
