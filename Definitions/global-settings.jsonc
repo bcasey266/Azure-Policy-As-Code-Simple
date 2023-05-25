@@ -5,7 +5,7 @@
             "pacSelector": "PolicyTesting",
             "cloud": "AzureCloud",
             "tenantId": "6ed84810-9473-45d6-bf1b-4e184c8f603b",
-            "deploymentRootScope": "/subscriptions/10a32d64-ee41-4474-91ef-d3b9de1f5386/resourceGroups/PolicyTesting",
+            "deploymentRootScope": "/subscriptions/10a32d64-ee41-4474-91ef-d3b9de1f5386",
             "inheritedDefinitionsScopes": [], // [optional] inherited definition scopes used but not managed by this repository, scopes must be visible from deploymentScope
             "desiredState": { // [optional]
                 "strategy": "full", // default full
