@@ -1,0 +1,126 @@
+{
+  "exemptions": {
+    "numberOfOrphans": 0,
+    "new": {},
+    "replace": {},
+    "numberOfChanges": 0,
+    "update": {},
+    "numberUnchanged": 0,
+    "delete": {}
+  },
+  "createdOn": "2023-05-25 16:07:40Z",
+  "pacOwnerId": "dfef029c-c847-4c7c-bcec-fac72ea3d61a",
+  "policyDefinitions": {
+    "new": {
+      "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyDefinitions/f9177853-f3bd-4e53-8b9d-229b49089acb": {
+        "scopeId": "/providers/Microsoft.Management/managementGroups/bakery",
+        "name": "f9177853-f3bd-4e53-8b9d-229b49089acb",
+        "metadata": {
+          "category": "Tagging",
+          "version": "1.0.0",
+          "pacOwnerId": "dfef029c-c847-4c7c-bcec-fac72ea3d61a"
+        },
+        "id": "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyDefinitions/f9177853-f3bd-4e53-8b9d-229b49089acb",
+        "mode": "Indexed",
+        "description": "Checks and can enforce the existence of a tag. Does not apply to resource groups.",
+        "displayName": "HTTPS Only",
+        "parameters": {
+          "effect": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Effect",
+              "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+              "Deny",
+              "Disabled",
+              "Audit"
+            ],
+            "defaultValue": "Deny"
+          }
+        },
+        "policyRule": {
+          "if": {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Web/sites"
+              },
+              {
+                "field": "Microsoft.Web/sites/httpsOnly",
+                "equals": "false"
+              }
+            ]
+          },
+          "then": {
+            "effect": "[parameters('effect')]"
+          }
+        }
+      }
+    },
+    "replace": {},
+    "numberOfChanges": 1,
+    "update": {},
+    "numberUnchanged": 2,
+    "delete": {}
+  },
+  "assignments": {
+    "new": {
+      "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyAssignments/Deny_Location": {
+        "identity": {
+          "type": "None"
+        },
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c",
+        "scope": "/providers/Microsoft.Management/managementGroups/bakery",
+        "metadata": {
+          "pacOwnerId": "dfef029c-c847-4c7c-bcec-fac72ea3d61a"
+        },
+        "description": "Prevents the creation of Azure resources outside of allowed locations",
+        "parameters": {
+          "listOfAllowedLocations": [
+            "centralus"
+          ]
+        },
+        "identityRequired": false,
+        "enforcementMode": "Default",
+        "displayName": "Deny Resource Creation Location",
+        "name": "Deny_Location",
+        "id": "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyAssignments/Deny_Location",
+        "notScopes": []
+      },
+      "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyAssignments/httpsonly": {
+        "identity": {
+          "type": "None"
+        },
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyDefinitions/f9177853-f3bd-4e53-8b9d-229b49089acb",
+        "scope": "/providers/Microsoft.Management/managementGroups/bakery",
+        "metadata": {
+          "pacOwnerId": "dfef029c-c847-4c7c-bcec-fac72ea3d61a"
+        },
+        "description": "Audits the existence of the tag 'AppName'. Does not apply to resource groups.",
+        "parameters": {
+          "effect": "Audit"
+        },
+        "identityRequired": false,
+        "enforcementMode": "Default",
+        "displayName": "Audit Resource Without httpsonly",
+        "name": "httpsonly",
+        "id": "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyAssignments/httpsonly",
+        "notScopes": []
+      }
+    },
+    "replace": {},
+    "numberOfChanges": 2,
+    "update": {},
+    "numberUnchanged": 2,
+    "delete": {}
+  },
+  "policySetDefinitions": {
+    "new": {},
+    "replace": {},
+    "numberOfChanges": 0,
+    "update": {},
+    "numberUnchanged": 0,
+    "delete": {}
+  }
+}

@@ -1,0 +1,33 @@
+# Policy Update Report
+
+---
+
+### Policy Definitions
+
+- Number of Changes: 1
+- Number Unchanged: 2
+
+#### New Policy Definitions (1)
+
+HTTPS Only
+
+
+---
+
+### Policy Set Definitions
+
+- Number of Changes: 0
+- Number Unchanged: 0
+
+---
+
+### Assignments
+
+- Number of Changes: 2
+- Number Unchanged: 2
+
+#### New Assignments (2)
+
+'Deny_Location' at /managementGroups/bakery
+
+'httpsonly' at /managementGroups/bakery
