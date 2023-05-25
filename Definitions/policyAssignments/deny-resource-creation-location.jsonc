@@ -1,0 +1,25 @@
+{
+    "nodeName": "/Deny_resource_creation_location/",
+    "assignment": {
+        "name": "Deny_Location",
+        "displayName": "Deny Resource Creation Location",
+        "description": "Prevents the creation of Azure resources outside of allowed locations"
+    },
+    "definitionEntry": {
+        "policyId": "/providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c",
+        "friendlyNameToDocumentIfGuid": ""
+    },
+    "parameters": {
+        "listOfAllowedLocations": [
+            "centralus"
+        ]
+    },
+    "scope": {
+        "PolicyTesting": [
+            "/subscriptions/10a32d64-ee41-4474-91ef-d3b9de1f5386/resourceGroups/PolicyTesting"
+        ],
+        "Bakery": [
+            "/providers/Microsoft.Management/managementGroups/bakery"
+        ]
+    }
+}
