@@ -1,0 +1,23 @@
+{
+    "nodeName": "/httpsonly/",
+    "assignment": {
+        "name": "httpsonly",
+        "displayName": "Audit Resource Without httpsonly",
+        "description": "Audits the existence of the tag 'AppName'. Does not apply to resource groups."
+    },
+    "definitionEntry": {
+        "policyName": "f9177853-f3bd-4e53-8b9d-229b49089acb",
+        "friendlyNameToDocumentIfGuid": ""
+    },
+    "parameters": {
+        "effect": "Audit"
+    },
+    "scope": {
+        "PolicyTesting": [
+            "/subscriptions/10a32d64-ee41-4474-91ef-d3b9de1f5386/resourceGroups/PolicyTesting"
+        ],
+        "Bakery": [
+            "/providers/Microsoft.Management/managementGroups/bakery"
+        ]
+    }
+}
