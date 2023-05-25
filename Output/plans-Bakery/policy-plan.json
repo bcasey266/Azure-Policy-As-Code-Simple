@@ -1,0 +1,219 @@
+{
+  "policySetDefinitions": {
+    "replace": {},
+    "numberUnchanged": 0,
+    "new": {},
+    "update": {},
+    "numberOfChanges": 0,
+    "delete": {}
+  },
+  "createdOn": "2023-05-25 12:44:02Z",
+  "assignments": {
+    "replace": {},
+    "numberUnchanged": 0,
+    "new": {
+      "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyAssignments/AppName-Res-Tag": {
+        "metadata": {
+          "pacOwnerId": "dfef029c-c847-4c7c-bcec-fac72ea3d61a"
+        },
+        "name": "AppName-Res-Tag",
+        "id": "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyAssignments/AppName-Res-Tag",
+        "scope": "/providers/Microsoft.Management/managementGroups/bakery",
+        "identityRequired": false,
+        "displayName": "Audit Resource Without AppName",
+        "identity": {
+          "type": "None"
+        },
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyDefinitions/d74cf41f-be8d-4287-ac3e-6f871e66e15a",
+        "enforcementMode": "Default",
+        "notScopes": [],
+        "parameters": {
+          "tagName": "AppName",
+          "effect": "Audit"
+        },
+        "description": "Audits the existence of the tag 'AppName'. Does not apply to resource groups."
+      },
+      "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyAssignments/AppName-RG-Tag": {
+        "metadata": {
+          "pacOwnerId": "dfef029c-c847-4c7c-bcec-fac72ea3d61a"
+        },
+        "name": "AppName-RG-Tag",
+        "id": "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyAssignments/AppName-RG-Tag",
+        "scope": "/providers/Microsoft.Management/managementGroups/bakery",
+        "identityRequired": false,
+        "displayName": "Audit Resource Group Without AppName",
+        "identity": {
+          "type": "None"
+        },
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyDefinitions/6ea6c248-8512-44a9-b49b-3179564dd9a3",
+        "enforcementMode": "Default",
+        "notScopes": [],
+        "parameters": {
+          "tagName": "AppName",
+          "effect": "Audit"
+        },
+        "description": "Audits the existence of the tag 'AppName'. Only applies to resource groups."
+      }
+    },
+    "update": {},
+    "numberOfChanges": 2,
+    "delete": {}
+  },
+  "policyDefinitions": {
+    "replace": {},
+    "numberUnchanged": 0,
+    "new": {
+      "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyDefinitions/d74cf41f-be8d-4287-ac3e-6f871e66e15a": {
+        "parameters": {
+          "tagName": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Tag Name",
+              "description": "Name of the tag, such as 'environment'"
+            }
+          },
+          "effect": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Effect",
+              "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+              "Audit",
+              "Deny",
+              "Disabled"
+            ],
+            "defaultValue": "Deny"
+          }
+        },
+        "displayName": "Resource Tag",
+        "name": "d74cf41f-be8d-4287-ac3e-6f871e66e15a",
+        "scopeId": "/providers/Microsoft.Management/managementGroups/bakery",
+        "id": "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyDefinitions/d74cf41f-be8d-4287-ac3e-6f871e66e15a",
+        "policyRule": {
+          "if": {
+            "field": "[concat('tags[', parameters('tagName'), ']')]",
+            "exists": "false"
+          },
+          "then": {
+            "effect": "[parameters('effect')]"
+          }
+        },
+        "mode": "Indexed",
+        "description": "Checks and can enforce the existence of a tag. Does not apply to resource groups.",
+        "metadata": {
+          "version": "1.0.0",
+          "pacOwnerId": "dfef029c-c847-4c7c-bcec-fac72ea3d61a",
+          "category": "Tagging"
+        }
+      },
+      "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyDefinitions/6ea6c248-8512-44a9-b49b-3179564dd9a3": {
+        "parameters": {
+          "tagName": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Tag Name",
+              "description": "Name of the tag, such as 'environment'"
+            }
+          },
+          "effect": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Effect",
+              "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+              "Audit",
+              "Deny",
+              "Disabled"
+            ],
+            "defaultValue": "Deny"
+          }
+        },
+        "displayName": "Resource Group Tag",
+        "name": "6ea6c248-8512-44a9-b49b-3179564dd9a3",
+        "scopeId": "/providers/Microsoft.Management/managementGroups/bakery",
+        "id": "/providers/Microsoft.Management/managementGroups/bakery/providers/Microsoft.Authorization/policyDefinitions/6ea6c248-8512-44a9-b49b-3179564dd9a3",
+        "policyRule": {
+          "if": {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+              },
+              {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "exists": "false"
+              },
+              {
+                "not": {
+                  "anyOf": [
+                    {
+                      "field": "name",
+                      "like": "cloud-shell-*"
+                    },
+                    {
+                      "field": "name",
+                      "like": "DefaultResourceGroup*"
+                    },
+                    {
+                      "field": "name",
+                      "like": "Zerto*"
+                    },
+                    {
+                      "field": "name",
+                      "like": "AzureBackupRG*"
+                    },
+                    {
+                      "field": "name",
+                      "like": "MC_*"
+                    },
+                    {
+                      "field": "name",
+                      "like": "aks_*"
+                    },
+                    {
+                      "field": "name",
+                      "like": "databricks*"
+                    },
+                    {
+                      "field": "name",
+                      "like": "*-migrated"
+                    },
+                    {
+                      "field": "name",
+                      "like": "NetworkWatcher*"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "then": {
+            "effect": "[parameters('effect')]"
+          }
+        },
+        "mode": "All",
+        "description": "Checks and can enforce the existence of a tag. Only applies to resource groups.",
+        "metadata": {
+          "version": "1.0.0",
+          "pacOwnerId": "dfef029c-c847-4c7c-bcec-fac72ea3d61a",
+          "category": "Tagging"
+        }
+      }
+    },
+    "update": {},
+    "numberOfChanges": 2,
+    "delete": {}
+  },
+  "pacOwnerId": "dfef029c-c847-4c7c-bcec-fac72ea3d61a",
+  "exemptions": {
+    "numberOfOrphans": 0,
+    "replace": {},
+    "numberUnchanged": 0,
+    "new": {},
+    "update": {},
+    "numberOfChanges": 0,
+    "delete": {}
+  }
+}

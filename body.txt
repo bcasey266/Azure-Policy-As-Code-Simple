@@ -1,0 +1,34 @@
+# Policy Update Report
+
+---
+
+### Policy Definitions
+
+- Number of Changes: 2
+- Number Unchanged: 0
+
+#### New Policy Definitions (2)
+
+Resource Tag
+Resource Group Tag
+
+
+---
+
+### Policy Set Definitions
+
+- Number of Changes: 0
+- Number Unchanged: 0
+
+---
+
+### Assignments
+
+- Number of Changes: 2
+- Number Unchanged: 0
+
+#### New Assignments (2)
+
+'AppName-Res-Tag' at /managementGroups/bakery
+
+'AppName-RG-Tag' at /managementGroups/bakery
