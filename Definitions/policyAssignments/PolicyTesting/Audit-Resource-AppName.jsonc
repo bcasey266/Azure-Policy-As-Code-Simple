@@ -1,0 +1,21 @@
+{
+    "nodeName": "/AppName-Res-Tag/",
+    "assignment": {
+        "name": "AppName-Res-Tag",
+        "displayName": "Audit Resource Without AppName",
+        "description": "Audits the existence of the tag 'AppName'. Does not apply to resource groups."
+    },
+    "definitionEntry": {
+        "policyName": "d74cf41f-be8d-4287-ac3e-6f871e66e15a",
+        "friendlyNameToDocumentIfGuid": ""
+    },
+    "parameters": {
+        "tagName": "AppName",
+        "effect": "Audit"
+    },
+    "scope": {
+        "PolicyTesting": [
+            "/subscriptions/10a32d64-ee41-4474-91ef-d3b9de1f5386/resourceGroups/PolicyTesting"
+        ]
+    }
+}

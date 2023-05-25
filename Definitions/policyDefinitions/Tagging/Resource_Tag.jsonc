@@ -1,0 +1,44 @@
+{
+   "name": "d74cf41f-be8d-4287-ac3e-6f871e66e15a",
+   "properties": {
+      "displayName": "Resource Tag",
+      "policyType": "Custom",
+      "mode": "Indexed",
+      "description": "Checks and can enforce the existence of a tag. Does not apply to resource groups.",
+      "metadata": {
+         "version": "1.0.0",
+         "category": "Tagging"
+      },
+      "parameters": {
+         "tagName": {
+            "type": "String",
+            "metadata": {
+               "displayName": "Tag Name",
+               "description": "Name of the tag, such as 'environment'"
+            }
+         },
+         "effect": {
+            "type": "String",
+            "metadata": {
+               "displayName": "Effect",
+               "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+               "Audit",
+               "Deny",
+               "Disabled"
+            ],
+            "defaultValue": "Deny"
+         }
+      },
+      "policyRule": {
+         "if": {
+            "field": "[concat('tags[', parameters('tagName'), ']')]",
+            "exists": "false"
+         },
+         "then": {
+            "effect": "[parameters('effect')]"
+         }
+      }
+   }
+}

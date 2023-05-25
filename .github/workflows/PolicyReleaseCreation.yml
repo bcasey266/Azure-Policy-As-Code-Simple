@@ -1,0 +1,33 @@
+name: Release Creation
+on:
+  workflow_dispatch:
+    inputs:
+      VersionType:
+        description: "Type of Release"
+        required: true
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+
+jobs:
+  CreateRelease:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    outputs:
+      VersionNumber: ${{ steps.next_version.outputs.version }}
+    concurrency:
+      group: PolicyReleaseCreation
+      cancel-in-progress: true
+    steps:
+      - id: next_version
+        uses: zwaldowski/semver-release-action@v3
+        with:
+          bump: ${{ inputs.VersionType}}
+          github_token: ${{secrets.PAT}}
+      - uses: ncipollo/release-action@v1
+        with:
+          body: "${{ steps.next_version.outputs.version }} has been released.  Patch notes are listed here: "
+          tag: ${{ steps.next_version.outputs.version }}
+          token: ${{secrets.PAT}}
